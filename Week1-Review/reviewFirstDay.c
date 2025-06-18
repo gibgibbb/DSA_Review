@@ -64,7 +64,7 @@ int main(){
 	display(L);
 	
 	bool retVal = find(L, 'S');
-	printf("%s", retVal);
+	printf("\n%d", retVal);
 	
 	return 0;
 }
