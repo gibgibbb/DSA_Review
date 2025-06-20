@@ -14,6 +14,18 @@ void insertFirst(LIST *L, int x);
 void display(LIST L);
 bool isMem(LIST L, int x);
 LIST getEven(LIST L);
+bool delNum(LIST *L, int x);
+
+bool delNum(LIST *L, int x){
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL && (*trav)->num != x; trav = &(*trav)->next){}
+	if((*trav) != NULL){
+		temp = *trav;
+		*trav = (*trav)->next;
+		free(temp);
+	}
+	return (*trav != NULL) ? true:false;
+}
 
 LIST getEven(LIST L){
 	LIST retVal = NULL;
@@ -73,6 +85,10 @@ int main(){
 	LIST evenList = getEven(L);
 	printf("\n");
 	display(evenList);
+	
+	bool retVal2 = delNum(&L, 2);
+	printf("\n%d\n", retVal2);
+	display(L);
 	
 	return 0;
 	
