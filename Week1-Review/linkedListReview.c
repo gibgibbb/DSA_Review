@@ -5,19 +5,26 @@
 //06/19/25 Introduction to Linked List 
 
 typedef struct node {
-	char elem;
+	int num;
 	struct node *next;
 }Node, *LIST;
 
 void init(LIST *L);
-void insertFirst(LIST *L, char x);
+void insertFirst(LIST *L, int x);
 void display(LIST L);
+bool isMem(LIST L, int x);
 
-void insertFirst(LIST *L, char x){
+bool isMem(LIST L, int x){
+	LIST trav;
+	for(trav = L; trav != NULL && trav->num != x; trav = trav->next){}
+	return (trav != NULL) ? true:false;
+}
+
+void insertFirst(LIST *L, int x){
 
 	LIST newNode = malloc(sizeof(struct node));
 	if(newNode!= NULL){
-		newNode->elem = x;
+		newNode->num = x;
 		newNode->next = *L;
 		*L = newNode;
 	}
@@ -26,7 +33,7 @@ void insertFirst(LIST *L, char x){
 void display(LIST L){
 	LIST trav;
 	for(trav = L; trav != NULL; trav = trav->next){
-		printf("%c ", trav->elem);
+		printf("%d ", trav->num);
 	}
 }
 
@@ -39,10 +46,13 @@ int main(){
 	LIST L;
 	
 	init(&L);
-	insertFirst(&L, 'u');
-	insertFirst(&L, 's');
-	insertFirst(&L, 'c');
+	insertFirst(&L, 2);
+	insertFirst(&L, 5);
+	insertFirst(&L, 7);
 	display(L);
+	
+	bool retVal = isMem(L, 2);
+	printf("\n%d", retVal);
 	
 	return 0;
 	
