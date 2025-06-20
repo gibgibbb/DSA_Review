@@ -13,6 +13,21 @@ void init(LIST *L);
 void insertFirst(LIST *L, int x);
 void display(LIST L);
 bool isMem(LIST L, int x);
+LIST getEven(LIST L);
+
+LIST getEven(LIST L){
+	LIST retVal = NULL;
+	LIST temp, trav;
+	for(trav = L; trav != NULL; trav = trav->next){
+		if(trav->num % 2 == 0){
+			temp = malloc(sizeof(struct node));
+			temp->num = trav->num;
+			temp->next = retVal;
+			retVal = temp;
+		}
+	}
+	return retVal;
+}
 
 bool isMem(LIST L, int x){
 	LIST trav;
@@ -49,10 +64,15 @@ int main(){
 	insertFirst(&L, 2);
 	insertFirst(&L, 5);
 	insertFirst(&L, 7);
+	insertFirst(&L, 8);
 	display(L);
 	
 	bool retVal = isMem(L, 2);
 	printf("\n%d", retVal);
+	
+	LIST evenList = getEven(L);
+	printf("\n");
+	display(evenList);
 	
 	return 0;
 	
