@@ -19,7 +19,8 @@ bool delNum(LIST *L, int x);
 bool delNum(LIST *L, int x){
 	LIST *trav, temp;
 	for(trav = L; *trav != NULL && (*trav)->num != x; trav = &(*trav)->next){}
-	if((*trav) != NULL){
+	
+	if(*trav != NULL){
 		temp = *trav;
 		*trav = (*trav)->next;
 		free(temp);
@@ -73,6 +74,7 @@ int main(){
 	LIST L;
 	
 	init(&L);
+	insertFirst(&L, 4);
 	insertFirst(&L, 2);
 	insertFirst(&L, 5);
 	insertFirst(&L, 7);
@@ -86,7 +88,7 @@ int main(){
 	printf("\n");
 	display(evenList);
 	
-	bool retVal2 = delNum(&L, 2);
+	bool retVal2 = delNum(&L, 4);
 	printf("\n%d\n", retVal2);
 	display(L);
 	
