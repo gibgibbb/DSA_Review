@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 //06/19/25 Introduction to Linked List 
+// para lang maka push sa git....
 
 typedef struct node {
 	int num;
