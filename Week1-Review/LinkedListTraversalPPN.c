@@ -58,6 +58,8 @@ int main(){
 	LIST L;
 	init(&L);
 	appendEnd(&L, 'u');
+	appendEnd(&L, 's');
+	appendEnd(&L, 'c');
 	display(L);
 	
 	return 0;
