@@ -27,9 +27,27 @@ typedef struct node{
 	struct node *link;
 }Node, *LIST;
 
-
 void init(LIST *L);
-void appendEnd(LIST *L, char )
+void appendEnd(LIST *L, char val);
+void display(LIST L);
+
+void display(LIST L){
+	LIST trav;
+	for(trav = L; trav != NULL; trav = trav->link){
+		printf("%c ", trav->elem);
+	}
+}
+
+void appendEnd(LIST *L, char val){
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL; trav = &(*trav)->link){}
+	temp = malloc(sizeof(struct node));
+	if(temp != NULL){
+		temp->elem = val;
+		temp->link = *trav;
+		*trav = temp;
+	}	
+}
 
 void init(LIST *L){
 	*L = NULL;
@@ -39,6 +57,8 @@ int main(){
 	
 	LIST L;
 	init(&L);
+	appendEnd(&L, 'u');
+	display(L);
 	
 	return 0;
 }
