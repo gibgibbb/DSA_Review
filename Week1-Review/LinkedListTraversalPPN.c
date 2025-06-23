@@ -30,6 +30,17 @@ typedef struct node{
 void init(LIST *L);
 void appendEnd(LIST *L, char val);
 void display(LIST L);
+void delVal(LIST *L, char val);
+
+void delVal(LIST *L, char val){
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL && (*trav)->elem != val; trav = &(*trav)->link){}
+	if(*trav != NULL){
+		temp = *trav;
+		*trav = (*trav)->link;
+		free(temp);
+	}
+}
 
 void display(LIST L){
 	LIST trav;
@@ -60,6 +71,9 @@ int main(){
 	appendEnd(&L, 'u');
 	appendEnd(&L, 's');
 	appendEnd(&L, 'c');
+	display(L);
+	printf("\n");
+	delVal(&L, 's');
 	display(L);
 	
 	return 0;
