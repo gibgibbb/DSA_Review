@@ -21,8 +21,8 @@ void init(LIST *L){
 }
 
 void insertFirst(LIST *L, char x){
-	int i;
 	if(L->elemCount < MAX){
+		int i;
 		for(i = L->elemCount++; i > 0; i--){
 			L->elem[i] = L->elem[i - 1];
 		}
