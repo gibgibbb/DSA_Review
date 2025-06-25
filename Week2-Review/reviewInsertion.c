@@ -10,6 +10,18 @@ void init(LIST *L);
 void insertFirst(LIST *L, char val);
 void display(LIST L);
 void insertAt(LIST *L, char val, int pos);
+void insertSorted(LIST *L, char val);
+
+void insertSorted(LIST *L, char val){
+	if(L->count < MAX){
+		int x;
+		for(x = L->count; x > 0 && L->elem[x] > val; x--){
+			L->elem[x + 1] = L->elem[x];
+		}
+		L->elem[x] = val;
+		L->count++;
+	}
+}
 
 void insertAt(LIST *L, char val, int pos){
 	int x;
@@ -51,10 +63,10 @@ int main(){
 	LIST A;
 	
 	init(&A);
-	insertFirst(&A, 'c');
-	insertFirst(&A, 's');
-	insertFirst(&A, 'u');
-	insertAt(&A, 'd', 0);
+	insertSorted(&A, 'c');
+	insertSorted(&A, 's');
+	insertSorted(&A, 'u');
+//	insertAt(&A, 'd', 0);
 	display(A);
 	
 	return 0;
