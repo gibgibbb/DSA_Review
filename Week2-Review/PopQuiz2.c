@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//06/25/25 Quiz 
+//06/25/25 Pop Quiz 
 
 typedef struct {
     char FName[24];
@@ -39,7 +39,7 @@ void displayStudDel(studRec value){
 studRec deleteLast(LIST *L){
     nodePtr *trav, temp;
     studRec dummy = {{"XXX", "XXX", 'X'}, 0, "XXX", 0};
-    for(trav = &L->P; *trav != NULL; trav = &(*trav)->link){}
+    for(trav = &L->P; (*trav)->link != NULL; trav = &(*trav)->link){}
     if(*trav != NULL){
         dummy = (*trav)->data;
         temp = *trav;
@@ -61,6 +61,7 @@ void insertFirst(LIST *L, studRec value){
         temp->data = value;
         temp->link = L->P;
         L->P = temp;
+        L->cnt++;
     }
 }
 
