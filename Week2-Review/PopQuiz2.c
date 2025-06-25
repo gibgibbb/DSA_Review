@@ -31,6 +31,19 @@ void insertFirst(LIST *L, studRec value);
 void display(LIST L);
 studRec deleteLast(LIST *L);
 void displayStudDel(studRec value);
+void insertSorted(LIST *L, studRec val);
+
+void insertSorted(LIST *L, studRec val){
+	nodePtr *trav, temp;
+	for(trav = &L->P; *trav!= NULL && (*trav)->data.id < val.id; trav = &(*trav)->link){}
+	temp = malloc(sizeof(struct node));
+	if(temp != NULL){
+		temp->data = val;
+		temp->link = *trav;
+		*trav = temp;
+		L->cnt++;
+	}
+}
 
 void displayStudDel(studRec value){
 	printf("%10d %10s %10d", value.id, value.course, value.year);
@@ -78,9 +91,10 @@ int main(){
     studRec studC = {{"AAAA", "RAH", 'D'}, 2200, "BSIS", 4};
     
     init(&L);
-    insertFirst(&L, studA);
-    insertFirst(&L, studB);
-    insertFirst(&L, studC);
+//    insertSorted(&L, studA);
+//    insertSorted(&L, studB);
+//    insertSorted(&L, studC);
+	insertFirst(&L, studA);
 	printf("\n");
     studRec studDel = deleteLast(&L);
     displayStudDel(studDel);

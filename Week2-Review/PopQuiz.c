@@ -23,11 +23,19 @@ typedef struct node {
 void init(LIST *L);
 void insertFirst(LIST *L, record data[], int cnt);
 void display(LIST L);
-nameType isStud(LIST L, unsigned int idNum);
+void deleteLast(LIST *L);
 
-nameType isStud(LIST L, unsigned int idNum){
-	
+void deleteLast(LIST *L){
+	LIST *trav, temp;
+	for(trav = L; (*trav)->link != NULL; trav = &(*trav)->link){}
+	if(*trav != NULL){
+		temp = malloc(sizeof(struct node));
+		temp = *trav;
+		*trav = (*trav)->link;
+		free(temp);
+	}
 }
+
 
 void init(LIST *L){
 	*L = NULL;
@@ -59,6 +67,9 @@ int main(){
 	
 	init(&A);
 	insertFirst(&A, StudA, 5);
+	display(A);
+	deleteLast(&A);
+	printf("\nAfter Deletion:\n");
 	display(A);
 	
 	return 0;
