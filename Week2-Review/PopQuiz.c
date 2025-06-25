@@ -36,6 +36,14 @@ void deleteLast(LIST *L){
 	}
 }
 
+void deleteFirst(LIST *L){
+	LIST temp;
+	if(*L != NULL){
+		temp = *L;
+		*L = (*L)->link;
+		free(temp);
+	}
+}
 
 void init(LIST *L){
 	*L = NULL;
@@ -68,7 +76,7 @@ int main(){
 	init(&A);
 	insertFirst(&A, StudA, 5);
 	display(A);
-	deleteLast(&A);
+	deleteFirst(&A);
 	printf("\nAfter Deletion:\n");
 	display(A);
 	

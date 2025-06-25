@@ -1,6 +1,8 @@
 #include <stdio.h>
 #define MAX 10
 
+//review for array list insertion
+
 typedef struct {
 	char elem[MAX];
 	int count;

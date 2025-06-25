@@ -12,7 +12,7 @@ typedef struct {
 typedef struct {
     nameType name;
     unsigned int id;
-    char course[9];
+    char course[8];
     int year;
 }studRec;
 
