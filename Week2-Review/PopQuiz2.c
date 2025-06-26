@@ -32,6 +32,7 @@ void display(LIST L);
 studRec deleteLast(LIST *L);
 void displayStudDel(studRec value);
 void insertSorted(LIST *L, studRec val);
+void deleteFirst(LIST *L);
 
 void insertSorted(LIST *L, studRec val){
 	nodePtr *trav, temp;
@@ -49,17 +50,31 @@ void displayStudDel(studRec value){
 	printf("%10d %10s %10d", value.id, value.course, value.year);
 }
 
+// What I noticed (maybe i am wrong)
+// When deleting the last element of a list, we use (*trav)->link instead of (*trav) in the condition
+
 studRec deleteLast(LIST *L){
-    nodePtr *trav, temp;
-    studRec dummy = {{"XXX", "XXX", 'X'}, 0, "XXX", 0};
-    for(trav = &L->P; (*trav)->link != NULL; trav = &(*trav)->link){}
-    if(*trav != NULL){
-        dummy = (*trav)->data;
-        temp = *trav;
-        *trav = (*trav)->link;
-        free(temp);
+    nodePtr *trav, temp; 												// why nodePtr *trav and not LIST *trav? remember that LIST is a list (LIST *L is a pointer to a structure) and we have to use a pointer to a pointer to a node (trav = &L->P) where trav is now pointing to the address of the pointer
+    studRec dummy = {{"XXX", "XXX", 'X'}, 0, "XXX", 0}; 				// initialized a value (just a checker)
+    for(trav = &L->P; (*trav)->link != NULL; trav = &(*trav)->link){} 	// instead of *trav != NULL, we check the value of (*trav)->link since if we use *trav, we'd reach the end of the list of nodes and *trav == NULL which will not execute the if statement below
+    if(*trav != NULL){													// if we reached the end, we delete the data
+        dummy = (*trav)->data;											// save the data from the last node so we can return it.
+        temp = *trav;													// temp holds the node that will be deleted
+        *trav = (*trav)->link;											// *trav gets NULL
+        free(temp);														// deallocate the space
+        L->cnt--;
     }
     return dummy;
+}
+
+void deleteFirst(LIST *L){
+	nodePtr temp;
+	if(L->cnt > 0){
+		temp = (nodePtr)malloc(sizeof(struct node));
+		temp = L->P;
+		L->P = L->P->link;
+		free(temp);
+	}
 }
 
 void display(LIST L){
@@ -91,13 +106,15 @@ int main(){
     studRec studC = {{"AAAA", "RAH", 'D'}, 2200, "BSIS", 4};
     
     init(&L);
-//    insertSorted(&L, studA);
-//    insertSorted(&L, studB);
-//    insertSorted(&L, studC);
+    insertSorted(&L, studA);
+    insertSorted(&L, studB);
+    insertSorted(&L, studC);
 	insertFirst(&L, studA);
+//	display(L);
 	printf("\n");
-    studRec studDel = deleteLast(&L);
+	studRec studDel = deleteLast(&L);
     displayStudDel(studDel);
+//    deleteFirst(&L);
     
     return 0;
 }
