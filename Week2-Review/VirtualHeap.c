@@ -18,6 +18,24 @@ typedef int LIST;
 void initVHeap(VirtualHeap *VH);
 void initList(LIST *L);
 int allocSpace(VirtualHeap *VH);
+void deallocSpace(VirtualHeap *VH, int pos);
+void insertFirst(VirtualHeap *VH, LIST *L, char val);
+
+void insertFirst(VirtualHeap *VH, LIST *L, char val){
+	if(VH->Avail != -1){
+		int temp = allocSpace(VH);
+		if(temp != -1){
+			VH->Nodes[temp].data = val;
+			VH->Nodes[temp].link = *L;
+			*L = temp;
+		}
+	}	
+}
+
+void deallocSpace(VirtualHeap *VH, int pos){
+	VH->Nodes[pos].link = VH->Avail;
+	VH->Avail = pos;
+}
 
 int allocSpace(VirtualHeap *VH){	
 	int temp = VH->Avail;
