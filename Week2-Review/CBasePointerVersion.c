@@ -20,6 +20,24 @@ typedef struct {
 }CursorList;
 
 void initHeap(CursorList *CL);
+void insertFirst(CursorList *CL, char val);
+void display(CursorList CL);
+int allocSpace(CursorList *CL);
+
+int allocSpace(CursorList *CL){
+	int temp = CL->VHPtr->avail;
+	if(temp != -1){
+		CL->VHPtr->avail = CL->VHPtr->Nodes[temp].link;
+	}
+	return temp;
+}
+
+void display(CursorList CL){
+	int x;
+	for(x = CL.List; x != -1; x = CL.VHPtr->Nodes[x].link){
+		printf("%c ", CL.VHPtr->Nodes[x].data);
+	}	
+}
 
 void initHeap(CursorList *CL){
 	CL->VHPtr = (VirtualHeap)malloc(sizeof(struct node));
@@ -40,13 +58,27 @@ void initHeap(CursorList *CL){
 		*/
 }
 
+void insertFirst(CursorList *CL, char val){
+	if(CL->VHPtr->avail != -1){
+		int temp = allocSpace(CL);
+		if(temp != -1){
+			CL->VHPtr->Nodes[temp].data = val;
+			CL->VHPtr->Nodes[temp].link = CL->List;
+			CL->List = temp; 
+		}
+	}
+}
+
 
 int main(){
 	
 	CursorList A;
 	
 	initHeap(&A);
-	printf("%d", A.List);
+	insertFirst(&A, 'u');
+	insertFirst(&A, 's');
+	insertFirst(&A, 'c');
+	display(A);
 	
 	return 0;
 }
