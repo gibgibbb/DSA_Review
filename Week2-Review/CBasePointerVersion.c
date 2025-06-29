@@ -26,8 +26,8 @@ void initHeap(CursorList *CL); // pass by address
 void insertFirst(CursorList *CL, char val);
 void display(CursorList CL); // pass by address
 int allocSpace(CursorList *CL); // pass by address
-void deallocSpace(CursorList *CL, int pos);
-void deleteFirst(CursorList *CL);
+void deallocSpace(CursorList *CL, int pos); // pass by address
+void deleteFirst(CursorList *CL); // pass by address
 
 // VHeap Function
 void deallocSpace(CursorList *CL, int pos){

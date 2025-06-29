@@ -64,6 +64,9 @@ int main(){
 	
 	initVHeap(&A);
 	initList(&L);
+	insertFirst(&A, &L, 'a');
+	insertFirst(&A, &L, 'b');
+	insertFirst(&A, &L, 'c');
 	
 	return 0;
 }
