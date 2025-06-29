@@ -26,6 +26,14 @@ void initHeap(CursorList *CL); // pass by address
 void insertFirst(CursorList *CL, char val);
 void display(CursorList CL); // pass by address
 int allocSpace(CursorList *CL); // pass by address
+void deallocSpace(CursorList *CL, int pos);
+void deleteFirst(CursorList *CL);
+
+// VHeap Function
+void deallocSpace(CursorList *CL, int pos){
+	CL->VHPtr->Nodes[pos].link = CL->VHPtr->avail;
+	CL->VHPtr->avail = pos;
+}
 
 int allocSpace(CursorList *CL){
 	int temp = CL->VHPtr->avail;
@@ -33,13 +41,6 @@ int allocSpace(CursorList *CL){
 		CL->VHPtr->avail = CL->VHPtr->Nodes[temp].link;
 	}
 	return temp;
-}
-
-void display(CursorList CL){
-	int x;
-	for(x = CL.List; x != -1; x = CL.VHPtr->Nodes[x].link){
-		printf("%c ", CL.VHPtr->Nodes[x].data);
-	}	
 }
 
 void initHeap(CursorList *CL){
@@ -52,7 +53,7 @@ void initHeap(CursorList *CL){
 			CL->VHPtr->Nodes[x].link = x - 1;
 		}
 	}
-	/* For some reason, the version 1 works
+	/* For some reason, the version 1 works and the version 2 doesn't // disregard this comment 
 	CL->VHPtr->avail = 0;    
 		int x;
 		for(x = CL->VHPtr->avail; x < MAX - 1; x++){
@@ -60,6 +61,17 @@ void initHeap(CursorList *CL){
 		}
 		*/
 }
+
+// display function
+
+void display(CursorList CL){
+	int x;
+	for(x = CL.List; x != -1; x = CL.VHPtr->Nodes[x].link){
+		printf("%c ", CL.VHPtr->Nodes[x].data);
+	}	
+}
+
+// Data Manipulation Functions
 
 void insertFirst(CursorList *CL, char val){
 	if(CL->VHPtr->avail != -1){
@@ -72,6 +84,14 @@ void insertFirst(CursorList *CL, char val){
 	}
 }
 
+void deleteFirst(CursorList *CL){
+	if(CL->List != -1){
+		int temp = CL->List;
+		CL->List = CL->VHPtr->Nodes[temp].link;
+		deallocSpace(CL, temp);
+	}
+}
+
 
 int main(){
 	
@@ -81,6 +101,9 @@ int main(){
 	insertFirst(&A, 'u');
 	insertFirst(&A, 's');
 	insertFirst(&A, 'c');
+	display(A);
+	printf("\n");
+	deleteFirst(&A);
 	display(A);
 	
 	return 0;
