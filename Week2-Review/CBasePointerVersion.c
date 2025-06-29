@@ -19,10 +19,13 @@ typedef struct {
 	int List;
 }CursorList;
 
-void initHeap(CursorList *CL);
+// general rule
+// pass by address if a value will be changed
+
+void initHeap(CursorList *CL); // pass by address
 void insertFirst(CursorList *CL, char val);
-void display(CursorList CL);
-int allocSpace(CursorList *CL);
+void display(CursorList CL); // pass by address
+int allocSpace(CursorList *CL); // pass by address
 
 int allocSpace(CursorList *CL){
 	int temp = CL->VHPtr->avail;
@@ -50,7 +53,7 @@ void initHeap(CursorList *CL){
 		}
 	}
 	/* For some reason, the version 1 works
-	CL->VHPtr->avail = 0;
+	CL->VHPtr->avail = 0;    
 		int x;
 		for(x = CL->VHPtr->avail; x < MAX - 1; x++){
 			CL->VHPtr->Nodes[x].link = x - 1;
