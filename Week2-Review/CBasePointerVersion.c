@@ -45,7 +45,7 @@ int allocSpace(CursorList *CL){
 
 void initHeap(CursorList *CL){
 	CL->VHPtr = (VirtualHeap)malloc(sizeof(struct node));
-	if(CL->VHPtr != NULL){
+	if(CL->VHPtr != NULL){x
 		CL->List = -1;
 		CL->VHPtr->avail = MAX - 1;
 		int x; 
