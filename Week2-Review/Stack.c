@@ -11,6 +11,38 @@ void push(Stack *S, char val);
 char top(Stack S);
 void pop(Stack *S);
 void display(Stack S);
+void insertBottom(Stack *S, char val);
+
+void insertBottom(Stack *S, char val){
+	Stack temp;
+	initStack(&temp);
+	
+	// Move everything from S to temp
+	for(; S->top != -1; pop(S)){
+		push(&temp, top(*S));
+	}
+	
+	// Now we reached the end, insert the element
+	push(S, val);
+	
+	// Move back temp to S
+	for(; temp.top != -1; pop(&temp)){
+		push(S, top(temp));
+	}
+	
+	/*if while loop
+	while(S->top != -1){
+		push(&temp, top(*S));
+		pop(S);
+	}
+	push(S, val);
+	
+	while(temp.top != -1){
+		push(S, top(&temp));
+		pop(&temp);
+	}
+	*/
+}
 
 char top(Stack S){
 	return (S.top != -1)? S.elem[S.top]: '\0';
@@ -21,10 +53,22 @@ void display(Stack S){
 	initStack(&temp);
 	
 	for(; S.top != -1; pop(&S)){
-		char c = S.elem[S.top];
-		push(&temp, c);
-		printf("%c ", c);
+		char c = S.elem[S.top]; //if u have a top function like i do, use char c = top(S);
+		push(&temp, c); // just (&temp, top(S))
+		printf("%c ", temp.elem[temp.top]);
+		
+		/*if short cut
+		push(&temp, top(S));
+		printf("%c ", temp.elem[temp.top]);
+		*/
 	}
+	/* if while loop imo trip then kani
+	while(S.top != -1){
+		push(&temp, top(S));
+		printf("%c ", temp.elem[temp.top]);
+		pop(&S);
+	}
+	*/
 }
 
 void push (Stack *S, char val){
@@ -50,7 +94,7 @@ int main(){
 	initStack(&A);
 	push(&A, 'a');
 	push(&A, 'b');
-	push(&A, 'c');
+	insertBottom(&A, 'c');
 	display(A);
 	return 0;
 }
