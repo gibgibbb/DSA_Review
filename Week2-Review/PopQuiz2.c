@@ -54,16 +54,16 @@ void displayStudDel(studRec value){
 // When deleting the last element of a list, we use (*trav)->link instead of (*trav) in the condition
 
 studRec deleteLast(LIST *L){
-    nodePtr *trav, temp; 												// why nodePtr *trav and not LIST *trav? remember that LIST is a list (LIST *L is a pointer to a structure) and we have to use a pointer to a pointer to a node (trav = &L->P) where trav is now pointing to the address of the pointer
-    studRec dummy = {{"XXX", "XXX", 'X'}, 0, "XXX", 0}; 				// initialized a value (just to have values and di ko malibat)
-    for(trav = &L->P; (*trav)->link != NULL; trav = &(*trav)->link){} 	// instead of *trav != NULL, we check the value of (*trav)->link since if we use *trav, we'd reach the end of the list of nodes and *trav == NULL which will not execute the if statement below
-    if(*trav != NULL){													// if we reached the end, we delete the data
-        dummy = (*trav)->data;											// save the data from the last node so we can return it.
-        temp = *trav;													// temp holds the node that will be deleted
-        *trav = (*trav)->link;											// *trav gets NULL
-        free(temp);														// deallocate the space
-        L->cnt--;
-    }
+    nodePtr *trav, temp; 														// why nodePtr *trav and not LIST *trav? remember that LIST is a list (LIST *L is a pointer to a structure) and we have to use a pointer to a pointer to a node (trav = &L->P) where trav is now pointing to the address of the pointer
+    studRec dummy = {{"XXX", "XXX", 'X'}, 0, "XXX", 0}; 						// initialized a value (just to have values and di ko malibat)
+    if(L != NULL){															// instead of *trav != NULL, we check the value of (*trav)->link since if we use *trav, we'd reach the end of the list of nodes and *trav == NULL which will not execute the if statement below
+		for(trav = &L->P; (*trav)->link != NULL; trav = &(*trav)->link){}		// if we reached the end, we delete the data
+		dummy = (*trav)->data;													// save the data from the last node so we can return it.
+    	temp = *trav;															// temp holds the node that will be deleted
+    	*trav = (*trav)->link;													// *trav gets NULL
+    	free(temp);																// deallocate the space
+    	L->cnt--;
+	}
     return dummy;
 }
 
