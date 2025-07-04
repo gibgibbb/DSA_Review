@@ -10,8 +10,8 @@ typedef struct {
 
 void init(LIST *L);
 void insertLast(LIST *L, char val);
-void deleteFirstOccurance(LIST *L, char val);
-void deleteAllOccurance(LIST *L, char val);
+void deleteFirstOccurence(LIST *L, char val);
+void deleteAllOccurence(LIST *L, char val);
 void display(LIST L);
 
 void init(LIST *L){
@@ -24,7 +24,7 @@ void insertLast(LIST *L, char val){
 	}
 }
 
-void deleteAllOccurance(LIST *L, char val){
+void deleteAllOccurence(LIST *L, char val){
 	int x;
 	for(x = 0; x <= L->avail;){
 		if(L->elem[x] == val){
@@ -39,7 +39,7 @@ void deleteAllOccurance(LIST *L, char val){
 	}
 }
 
-void deleteFirstOccurance(LIST *L, char val){
+void deleteFirstOccurence(LIST *L, char val){
 	int x;
 	for(x = 0; x < L->avail && L->elem[x] != val; x++){}
 	for(; x < L->avail; x++){
@@ -69,7 +69,7 @@ int main (){
 	
 	printf("\n");
 	
-	deleteFirstOccurance(&A, 'a');
+	deleteFirstOccurence(&A, 'a');
 	display(A);
 	
 	return 0;
