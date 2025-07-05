@@ -26,7 +26,7 @@ typedef struct {
 /* Normal Operations */
 /* You can modify the return type here (e.g. return the deleted value) */
 
-void initList(LIST *L); // Given an empty list L, initialize its count to 0 so it is ready for use.
+void initList(LIST *L); // Given an empty list L, initialize its count to -1 so it is ready for use.
 void insertFirst(LIST *L, studRec val); // Given the list L and a student record value, insert value at the front, shifting existing elements to the right, and increment the list count.
 void insertLast(LIST *L, studRec val); // Given the list L and a student record val, append val at the end, and increment the list count.
 

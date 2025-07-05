@@ -26,7 +26,7 @@ typedef struct {
 /* Normal Operations */
 /* You can modify the return type here (e.g. return the deleted value or return true if the element was inserted) */
 
-void initList(LIST *L); // Given an empty list L, initialize its count to 0 so it is ready for use.
+void initList(LIST *L); // Given an empty list L, initialize its count to -1 so it is ready for use.
 void insertFirst(LIST *L, studRec val); // Given the list L and a student record value, insert value at the front, shifting existing elements to the right, and increment the list count.
 void insertLast(LIST *L, studRec val); // Given the list L and a student record val, append val at the end, and increment the list count.
 
@@ -52,7 +52,6 @@ void deleteAllOccurence(LIST *L, char courseVal[]); // Given the list L and a st
 
 void displayAllSameYearLevel(LIST L); // Given the list L, print all student records whose yrLevel field matches any value you’re interested in (e.g., group by year level).
 int countAllSameCourses(LIST L); // Given the list L, count and return how many student records have the same course field
-
 
 int main (){
 	
