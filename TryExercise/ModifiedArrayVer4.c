@@ -16,7 +16,7 @@ typedef struct LIST{
 void init(LISTPtr *L);
 void insertFirst(LISTPtr *L, Nametype val);
 void deleteFirst(LISTPtr *L);
-bool findElem(LISTPtr L, char val);
+bool findElem(LISTPtr L, char val[]);
 
 void display(LISTPtr L);
 
@@ -46,10 +46,10 @@ void insertFirst(LISTPtr *L, Nametype val){
 	}
 }
 
-bool findElem(LISTPtr L, char val){
+bool findElem(LISTPtr L, char val[]){
 	int x;
-	for(x = 0; x < L->count && L->name[x].MI != val; x--){}
-	return(L->name[x].MI == val) ? true : false;
+	for(x = 0; x <= L->count && strcmp(L->name[x].FN, val) != 0; x++){}
+	return(x <= L->count) ? true : false;
 }
 
 void deleteFirst(LISTPtr *L){
@@ -75,13 +75,13 @@ int main(){
 //	insertFirst(&A, studB);
 //	insertFirst(&A, studC);
 	
+//	display(A);
+	
+//	deleteFirst(&A);
+//	printf("\n");
 	display(A);
 	
-	deleteFirst(&A);
-	printf("\n");
-	display(A);
-	
-	bool retVal = findElem(A, 'D');
+	bool retVal = findElem(A, "Kent");
 	printf("\n%d", retVal);
 		
 	return 0;
