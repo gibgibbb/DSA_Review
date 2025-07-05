@@ -45,11 +45,10 @@ void insertLastUnique(LIST *L, studRec val); // Given the list L and a student r
 
 /* You can modify the return type here (e.g. return the deleted value)*/
 
-void deleteAt(LIST *L, int pos);
-void deleteFirstOccurence(LIST *L, unsigned int IDVal); // Given the list L and a position pos, remove the element at pos, shift subsequent elements left, and decrement count. 
+void deleteAt(LIST *L, int pos); // Given the list L and a position pos, remove the element at pos, shift subsequent elements left, and decrement count.
+void deleteFirstOccurence(LIST *L, unsigned int IDVal); // Given the list L and an unsigned int IDVal, remove the first record whose id field matches IDVal, shift elements and update count
 void deleteAllOccurence(LIST *L, char courseVal[]); // Given the list L and a string courseVal, remove all records whose course field
-   													// matches courseVal, shifting elements left and updating count; return the number
-   													// of deleted entries
+   													// matches courseVal, shifting elements left and updating count;
 
 void displayAllSameYearLevel(LIST L); // Given the list L, print all student records whose yrLevel field matches any value you’re interested in (e.g., group by year level).
 int countAllSameCourses(LIST L); // Given the list L, count and return how many student records have the same course field
