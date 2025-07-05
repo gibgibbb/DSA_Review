@@ -38,7 +38,7 @@ void init(LISTPtr *L){
 void insertFirst(LISTPtr *L, Nametype val){
 	if((*L)->count < MAX){
 		int x;
-		for(x = (*L)->count + 1; x > 0; x--){
+		for(x = (*L)->count; x >= 0; x--){
 			(*L)->name[x] = (*L)->name[x - 1];
 		}
 		(*L)->name[0] = val;
