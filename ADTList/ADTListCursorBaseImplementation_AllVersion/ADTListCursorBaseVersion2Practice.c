@@ -39,6 +39,7 @@ void insertFirst(CLIST *CL, studRec val);
 void insertLast(CLIST *CL, studRec val);
 
 void deleteFirst(CLIST *CL);
+void deleteLast(CLIST *CL);
 
 
 /* Modified */

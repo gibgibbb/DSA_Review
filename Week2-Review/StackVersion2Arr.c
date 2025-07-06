@@ -29,11 +29,14 @@ void pop(Stack *S){
 
 void display(Stack S){
 	Stack temp;
-	initStack(&temp);
+	temp = malloc(sizeof(struct stack));
+	if(temp != NULL){
+		temp->top = -1;
+	}
 	
-	for(; S->top != -1; pop(&S)){
-		push(&temp, S->elem[S->top]);
-		printf("%c ", S->elem[S->top]);
+	for(; S->top != -1; S->top--){
+		temp->elem[++temp->top] = S->elem[S->top];
+		printf("%c ", temp->elem[temp->top]);
 	}
 }
 
