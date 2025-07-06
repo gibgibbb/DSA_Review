@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 /* ADT List Linked List Implementation Version 1 */
 
@@ -73,6 +74,75 @@ void insertLast(LIST *L, studRec val){ // Working
 	}
 }
 
+
+void insertFirstUnique(LIST *L, studRec val){ // Working
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL && (*trav)->stud.ID != val.ID; trav = &(*trav)->link){}
+	if(*trav == NULL){
+		temp = malloc(sizeof(struct node));
+		temp->stud = val;
+		temp->link = *L;
+		*L = temp;
+	}
+}
+
+void insertLastUnique(LIST *L, studRec val){ // Working
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL && (*trav)->stud.ID != val.ID; trav = &(*trav)->link){}
+	if(*trav == NULL){
+		temp = malloc(sizeof(struct node));
+		temp->stud = val;
+		temp->link = *trav;
+		*trav = temp;
+	}
+}
+
+void insertAt(LIST *L, studRec val, int pos){ // Working
+	int x;
+	LIST *trav, temp;
+	for(trav = L, x = 0; x < pos && *trav != NULL; trav = &(*trav)->link, x++){}
+	temp = malloc(sizeof(struct node));
+	if(temp != NULL){
+		temp->stud = val;
+		temp->link = (*trav);
+		*trav = temp;
+	}
+}
+
+void deleteAt(LIST *L, int pos){
+	int x;
+	LIST *trav, temp;
+	if(*L != NULL){
+		for(trav = L, x = 0; x < pos && (*trav)->link != NULL; trav = &(*trav)->link, x++){}
+		temp = *trav;
+		*trav = temp->link;
+		free(temp);
+ 	}
+}
+
+void deleteFirstOccurrence(LIST *L, unsigned int IDVal){
+	LIST *trav, temp;
+	for(trav = L; (*trav)->link != NULL && (*trav)->stud.ID != IDVal; trav = &(*trav)->link){}
+	if(*trav != NULL){
+		temp = *trav;
+		*trav = temp->link;
+		free(temp);
+	}
+}
+
+void deleteAllOccurrences(LIST *L, char val[]){
+	LIST *trav, temp;
+	for(trav = L; *trav != NULL;){
+		if(strcmp((*trav)->stud.course, val) == 0){
+			temp = *trav;
+			*trav = temp->link;
+			free(temp);
+		} else {
+			trav = &(*trav)->link;
+		}
+	}
+}
+
 void deleteFirst(LIST *L){ // Working
 	LIST temp;
 	if(*L != NULL){
@@ -82,8 +152,14 @@ void deleteFirst(LIST *L){ // Working
 	}
 }
 
-void deleteLast(LIST *L){
-	
+void deleteLast(LIST *L){ // Working
+	LIST *trav, temp;
+	if(*L != NULL){
+		for(trav = L; (*trav)->link != NULL; trav = &(*trav)->link){}
+		temp = *trav;
+		*trav = temp->link;
+		free(temp);
+	}
 }
 
 void display(LIST L){ // Working
@@ -98,8 +174,9 @@ int main (){
 	initList(&A);
 	
 	studRec studA = {2210, {"Kristian", "Lemuel", 'W'}, "BSCS", 4};
-	studRec studB = {2243, {"Nyohoy", "Gana", 'C'}, "BSCS", 3};
+	studRec studB = {2243, {"Nyohoy", "Gana", 'C'}, "BSIT", 3};
 	studRec studC = {2226, {"Yippee", "Work", 'D'}, "BSIS", 4};
+	studRec studD = {2210, {"abhjewjf", "asdasf", 'F'}, "BSIT", 1};
 	
 //	insertLast(&A, studA);
 //	insertLast(&A, studB);
@@ -108,8 +185,16 @@ int main (){
 	insertFirst(&A, studA);
 	insertFirst(&A, studB);
 	insertFirst(&A, studC);
+	insertFirst(&A, studD);
+//	insertAt(&A, studD, 0);
+//	insertFirstUnique(&A, studD);
+//	insertLastUnique(&A, studD);
 	
-	deleteFirst(&A);
+//	deleteFirst(&A);
+	deleteLast(&A);
+//	deleteAt(&A, 0);
+//	deleteFirstOccurrence(&A, 2210);
+//	deleteAllOccurrences(&A, "BSCS");
 	
 	display(A);
 	return 0;

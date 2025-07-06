@@ -29,7 +29,7 @@ Nametype getLastElem(VirtualHeap VH, CList L); // gets the last elem of the VHea
 
 Nametype getLastElem(VirtualHeap VH, CList L){
 	Nametype dummy = {"xxx", "xxx", 'x'};
-	CList trav = L;
+	CList trav;
 	for(trav = L; VH.Nodes[trav].link != -1; trav = VH.Nodes[trav].link){} // instead of trav != -1 , we check the value of the link to check if it exist.
 	if(L != -1){														   // my rule of thumb, if it's deleting or accessing the last elem/check if something exist and it's possible that 
 		dummy = VH.Nodes[trav].data;									   // it is in the last node, use the link for the condition checker. (not sure maybe my logic is wrong)

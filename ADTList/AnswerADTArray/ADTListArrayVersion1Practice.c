@@ -47,8 +47,8 @@ void insertSorted(LIST *L, studRec val);
 /* You can modify the return type here (e.g. return the deleted value)*/
 
 void deleteAt(LIST *L, int pos); // Given the list L and a position pos, remove the element at pos, shift subsequent elements left, and decrement count. (CHECK)
-void deleteFirstOccurence(LIST *L, unsigned int IDVal); // Given the list L and an unsigned int IDVal, remove the first record whose id field matches IDVal, shift elements and update count (CHECK)
-void deleteAllOccurence(LIST *L, char courseVal[]); // Given the list L and a string courseVal, remove all records whose course field
+void deleteFirstOccurrence(LIST *L, unsigned int IDVal); // Given the list L and an unsigned int IDVal, remove the first record whose id field matches IDVal, shift elements and update count (CHECK)
+void deleteAllOccurrences(LIST *L, char courseVal[]); // Given the list L and a string courseVal, remove all records whose course field
    													// matches courseVal, shifting elements left and updating count; 
 
 void displayAllSameYearLevel(LIST L); // Given the list L, print all student records whose yrLevel field matches any value you’re interested in (e.g., group by year level).
@@ -152,7 +152,7 @@ void deleteAt(LIST *L, int pos){ // Working
 	}
 }
 
-void deleteFirstOccurence(LIST *L, unsigned int IDVal){ // Working
+void deleteFirstOccurrence(LIST *L, unsigned int IDVal){ // Working
 	int x;
 	if(L->count != -1){
 		for(x = 0; x <= L->count && L->stud[x].ID != IDVal; x++){}
@@ -163,7 +163,7 @@ void deleteFirstOccurence(LIST *L, unsigned int IDVal){ // Working
 	}
 }
 
-void deleteAllOccurence(LIST *L, char courseVal[]){
+void deleteAllOccurrences(LIST *L, char courseVal[]){
 	int x, y;
 	if(L->count != -1){
 		for(x = 0; x <= L->count;){
@@ -212,8 +212,8 @@ int main (){
 //	deleteFirst(&A);
 //	deleteLast(&A);
 //	deleteAt(&A, 0);
-//	deleteFirstOccurence(&A, 2278);
-//	deleteAllOccurence(&A, "BSCS");
+//	deleteFirstOccurrence(&A, 2278);
+//	deleteAllOccurrences(&A, "BSCS");
 	
 	display(A);
 	

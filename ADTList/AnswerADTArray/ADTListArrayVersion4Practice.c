@@ -55,12 +55,17 @@ void displayAllSameYearLevel(LIST L); // Given the list L, print all student rec
 int countAllSameCourses(LIST L); // Given the list L, count and return how many student records have the same course field
 
 void initList(LIST *L){
-	L->count = -1;
+	*L = malloc(sizeof(struct list));
+	if(*L != NULL){
+		(*L)->stud = malloc(sizeof(struct cell));
+		(*L)->count = -1;
+	}
 }
 
 int main(){
 	
 	LIST A;
+	initList(&A);
 	
 	return 0;
 }
