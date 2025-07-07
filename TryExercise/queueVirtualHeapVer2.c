@@ -28,27 +28,37 @@ typedef struct {
 	VHeap *ptr;
 }queue;
 
-void initQueue(queue *Q);
+queue initQueue(VHeap *VH);
+void initVHeap(VHeap *VH);
 void insertFirst(queue *Q, studRec val);
 void insertLast(queue *Q, studRec val);
 void deleteFirst(queue *Q);
 void deleteFirst(queue *Q);
 
-void initQueue(queue *Q){
-	Q->front = -1;
-	Q->rear = -1;
-	Q->cnt = 0;
-	Q->ptr = malloc(sizeof(VHeap));
-	if(Q->ptr != NULL){
-		Q->ptr->firstAvail = -1;
+queue initQueue(VHeap *VH){
+	queue Q;
+	
+	Q.cnt = 0;
+	Q.front = Q.rear = -1;
+	Q.ptr = VH;
+	
+	return Q;
+}
+
+void initVHeap(VHeap *VH){
+	VH->firstAvail = MAX - 1;
+	int x;
+	for(x = VH->firstAvail; x >= 0; x--){
+		VH->VSpace[x].link = x - 1;
 	}
 }
 
 int main(){
 	
 	queue A;
-	
-	initQueue(&A);
+	VHeap V;
+	initVHeap(&V);
+	A = initQueue(&V);
 	
 	return 0;
 }

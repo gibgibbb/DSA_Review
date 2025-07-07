@@ -29,7 +29,8 @@ void insertFirst(Stack *S, char val){
 }
 
 void insertBottom(Stack *S, char val){
-//	Stack temp = NULL;
+//	Stack temp;
+//	temp = NULL;
 //	for(; *S != NULL; deleteFirst(S)){
 //		insertFirst(&temp, (*S)->elem);
 //	}
@@ -37,14 +38,34 @@ void insertBottom(Stack *S, char val){
 //	for(; temp != NULL; deleteFirst(&temp)){
 //		insertFirst(S, temp->elem);
 //	}
-	Stack temp = malloc(sizeof(struct stack));
-	if(temp != NULL){
-		temp->elem = val;
-		temp->link = *S;
-		*S = NULL;
+	Stack temp = NULL;
+ 	for(;*S != NULL;){
+		Stack temp2 = *S;
+		char v = temp2->elem;
+		*S = temp2->link;
+		free(temp2);
+
+		Stack temp3 = malloc(sizeof(struct stack));
+		temp3->elem = v;
+		temp3->link = temp;
+		temp = temp3;
 	}
-	if(*S != NULL){
-		Stack
+	temp = malloc(sizeof(struct stack));
+	if(temp != NULL){
+		newNode->elem = val;
+		newNode->link = NULL;
+		*S = newNode;
+	}
+	for(;temp != NULL;){
+		Stack temp2 = temp;
+		char v = temp2->elem;
+		temp = temp2->link;
+		free(temp2);
+
+		Stack temp3 = malloc(sizeof(struct stack));
+		temp3->elem = v;
+		temp3->link = *S;
+		*S = temp3;
 	}
 
 }
@@ -71,9 +92,10 @@ int main(){
 	initStack(&A);
 	
 	//push
-	insertFirst(&A, 'a');
-	insertFirst(&A, 'b');
+//	insertFirst(&A, 'a');
+//	insertFirst(&A, 'b');
 	insertBottom(&A, 'c');
+	insertBottom(&A, 'd');
 	
 	display(A);
 	
