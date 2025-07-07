@@ -76,9 +76,9 @@ void insertLast(LIST *L, studRec val){ // Working
 
 
 void insertFirstUnique(LIST *L, studRec val){ // Working
-	LIST *trav, temp;
-	for(trav = L; *trav != NULL && (*trav)->stud.ID != val.ID; trav = &(*trav)->link){}
-	if(*trav == NULL){
+	LIST trav, temp;
+	for(trav = *L; trav != NULL && trav->stud.ID != val.ID; trav = trav->link){}
+	if(trav == NULL){
 		temp = malloc(sizeof(struct node));
 		temp->stud = val;
 		temp->link = *L;
@@ -182,16 +182,17 @@ int main (){
 //	insertLast(&A, studB);
 //	insertLast(&A, studC);
 
-	insertFirst(&A, studA);
-	insertFirst(&A, studB);
-	insertFirst(&A, studC);
-	insertFirst(&A, studD);
+//	insertFirst(&A, studA);
+//	insertFirst(&A, studB);
+//	insertFirst(&A, studC);
+//	insertFirst(&A, studD);
 //	insertAt(&A, studD, 0);
-//	insertFirstUnique(&A, studD);
+	insertFirstUnique(&A, studD);
+	insertFirstUnique(&A, studB);
 //	insertLastUnique(&A, studD);
 	
 //	deleteFirst(&A);
-	deleteLast(&A);
+//	deleteLast(&A);
 //	deleteAt(&A, 0);
 //	deleteFirstOccurrence(&A, 2210);
 //	deleteAllOccurrences(&A, "BSCS");

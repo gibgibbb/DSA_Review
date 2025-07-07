@@ -69,26 +69,10 @@ void insertFirst(LIST *L, studRec val){ // Working
 	}
 }
 
-void deleteFirst(LIST *L){ // Working
-	int x;
-	if(L->count != -1){
-		for(x = 0; x < L->count; x++){
-			L->stud[x] = L->stud[x + 1];
-		}
-		L->count--;
-	}
-}
-
 void insertLast(LIST *L, studRec val){ // Working
 	int x;
 	if(L->count < MAX){
 		L->stud[++L->count] = val;
-	}
-}
-
-void deleteLast(LIST *L){ // Working
-	if(L->count != -1){
-		L->count--;
 	}
 }
 
@@ -137,6 +121,22 @@ void insertSorted(LIST *L, studRec val){
 		}
 		L->stud[x + 1] = val;
 		L->count++;
+	}
+}
+
+void deleteFirst(LIST *L){ // Working
+	int x;
+	if(L->count != -1){
+		for(x = 0; x < L->count; x++){
+			L->stud[x] = L->stud[x + 1];
+		}
+		L->count--;
+	}
+}
+
+void deleteLast(LIST *L){ // Working
+	if(L->count != -1){
+		L->count--;
 	}
 }
 
@@ -204,10 +204,11 @@ int main (){
 //	insertFirst(&A, studA);
 //	insertFirst(&A, studB);
 //	insertAt(&A, studC, 0);
-	insertSorted(&A, studA);
-	insertSorted(&A, studB);
-	insertSorted(&A, studC);
-//	insertFirstUnique(&A, studC);
+//	insertSorted(&A, studA);
+//	insertSorted(&A, studB);
+//	insertSorted(&A, studC);
+	insertFirstUnique(&A, studC);
+	insertFirstUnique(&A, studA);
 //	insertLastUnique(&A, studC);
 //	deleteFirst(&A);
 //	deleteLast(&A);
