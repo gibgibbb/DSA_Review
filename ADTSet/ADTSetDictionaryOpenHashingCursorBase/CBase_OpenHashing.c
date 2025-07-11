@@ -43,8 +43,15 @@ int main()
 	insertSorted(A, &VH, 8);
 	insertSorted(A, &VH, 9);
 	insertSorted(A, &VH, 10);
+	insertSorted(A, &VH, 100);
 	insertSorted(A, &VH, 12);
 
+	Boolean catcher = isMember(A, VH, 8);
+	printf("prints 0 if it is an element: %d \n", catcher);
+	display(A, VH);
+	
+	deleteElem(A, &VH, 10);
+	printf("\n");
 	display(A, VH);
 }
 //memory management
@@ -113,7 +120,14 @@ void insertSorted(myDict A, Vheap *myHeap, int elem) //Not allowed to call other
 /* Searches for an element within the Dictionary and deletes that elem */
 void deleteElem(myDict A, Vheap *myHeap, int elem)
 {
-
+	int *trav, hashVal = elem % MAX;
+	for(trav = &A[hashVal]; *trav != -1 && myHeap->arr[*trav].data != elem; trav = &myHeap->arr[*trav].link){}
+	if(*trav != -1){
+		int temp = *trav;
+		*trav = myHeap->arr[*trav].link;
+		myHeap->arr[temp].link = myHeap->avail;
+		myHeap->avail = temp;
+	}
 }
 
 /* Display the content of the Dictionary  */
@@ -138,6 +152,8 @@ int hash(int elem)
 /* Searches for an element in the Dictionary and return TRUE if the element is found */
 Boolean isMember(myDict A, Vheap myHeap, int elem)
 {
-
+	int trav, hashVal = elem % MAX;
+	for(trav = A[hashVal]; trav != -1 && myHeap.arr[trav].data != elem; trav = myHeap.arr[trav].link){}
+	return (trav != -1) ? TRUE:FALSE;
 }
 
