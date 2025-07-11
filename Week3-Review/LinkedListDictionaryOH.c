@@ -24,6 +24,7 @@ void initDict(Dictionary A);
 void insertSorted(Dictionary A, studRec val);
 unsigned int hash(unsigned int val);
 void display(Dictionary A);
+void deleteStudRec(Dictionary A, unsigned int IDVal);
 
 void display(Dictionary A){
 	int x;
@@ -31,7 +32,7 @@ void display(Dictionary A){
 	for(x = 0; x < MAX; x++){
 		printf("[%d] -> ", x);
 		for(trav = A[x]; trav != NULL; trav = trav->link){
-			printf("%s ", trav->stud.name.FN);
+			printf("%d --> ", trav->stud.ID);
 		}
 		printf("\n");
 	}
@@ -69,6 +70,17 @@ void insertSorted(Dictionary A, studRec val){
 	}
 }
 
+void deleteStudRec(Dictionary A, unsigned int IDVal){
+	SET *trav, temp;
+	unsigned int loc = hash(IDVal);
+	for(trav = &A[loc]; *trav != NULL && (*trav)->stud.ID != IDVal; trav = &(*trav)->link){}
+	if(*trav != NULL){
+		temp = *trav;
+		*trav = (*trav)->link;
+		free(temp);
+	}
+}
+
 int main(){
 	
 	Dictionary D;
@@ -81,7 +93,9 @@ int main(){
 	insertSorted(D, studA);
 	insertSorted(D, studB);
 	insertSorted(D, studC);
-	
+	display(D);
+	printf("\nDeleted Value\n");
+	deleteStudRec(D, 2023);
 	display(D);
 	return 0;
 	
