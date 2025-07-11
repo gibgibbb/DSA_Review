@@ -13,11 +13,7 @@ SET Union(SET A, SET B);
 
 SET Union(SET A, SET B){
 	SET C, aptr, bptr, *cptr;
-	C = NULL;
-	aptr = A;
-	bptr = B;
-	cptr = &C;
-	for(; aptr != NULL && bptr != NULL; ){
+	for(C = NULL, aptr = A, bptr = B, cptr = &C; aptr != NULL && bptr != NULL; ){
 		*cptr = (SET)malloc(sizeof(struct node));
 		if(aptr->elem < bptr->elem){
 			(*cptr)->elem = aptr->elem;
@@ -44,7 +40,41 @@ SET Union(SET A, SET B){
 }
 
 SET Intersection(SET A, SET B){
-	
+	SET C, aptr, bptr, *cptr;
+	for(C = NULL, aptr = A, bptr = B, cptr = &C; aptr != NULL && bptr != NULL;){
+		if(aptr->elem > bptr->elem){
+			bptr = bptr->link;
+		}
+		if(aptr->elem == bptr->elem){
+			*cptr = (SET)malloc(sizeof(struct node));
+			(*cptr)->elem = aptr->elem;
+			cptr = &(*cptr)->link;
+			bptr = bptr->link;
+		}
+		aptr = aptr->link;
+	}
+	*cptr = NULL;
+	return C;
+}
+
+SET Difference(SET A, SET B){
+	SET C, aptr, bptr, *cptr;
+	for(C = NULL, aptr = A, bptr = B, cptr = &C; aptr != NULL;){
+		for(;bptr != NULL;){
+			if(aptr->elem == bptr->elem){
+				aptr = aptr->link;
+				bptr = bptr->link
+			}
+			if(aptr->elem > bptr->elem){
+				bptr = bptr->link;
+			} else {
+				*cptr = (SET)malloc(sizeof(struct node));
+				(*cptr)->elem = aptr->elem;
+				aptr = aptr->link;
+				cp = &(*cptr)->link;
+			}
+		}
+	}
 }
 
 void initSet(SET *S){
@@ -94,8 +124,10 @@ int main(){
 	}
 	
 	SET C = Union(A, B);
-	
+	SET D = Intersection(A, B);
 //	display(A);
+//	display(C);
+//	display(D);
 	
 	return 0;
 }
