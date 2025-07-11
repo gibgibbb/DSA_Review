@@ -63,7 +63,7 @@ SET Difference(SET A, SET B){
 		for(;bptr != NULL;){
 			if(aptr->elem == bptr->elem){
 				aptr = aptr->link;
-				bptr = bptr->link
+				bptr = bptr->link;
 			}
 			if(aptr->elem > bptr->elem){
 				bptr = bptr->link;
@@ -71,10 +71,17 @@ SET Difference(SET A, SET B){
 				*cptr = (SET)malloc(sizeof(struct node));
 				(*cptr)->elem = aptr->elem;
 				aptr = aptr->link;
-				cp = &(*cptr)->link;
+				cptr = &(*cptr)->link;
 			}
 		}
+		*cptr = (SET)malloc(sizeof(struct node));
+		*cptr = (SET)malloc(sizeof(struct node));
+		(*cptr)->elem = aptr->elem;
+		aptr = aptr->link;
+		cptr = &(*cptr)->link;
 	}
+	*cptr = NULL;
+	return C;
 }
 
 void initSet(SET *S){
