@@ -8,6 +8,14 @@ typedef struct {
 
 void init(PQ *pq);
 void insertToPOT(PQ *pq, int val);
+void display(PQ pq);
+
+void display(PQ pq){
+	int x;
+	for(x = 0; x < pq.lastNdx; x++){
+		printf("%d ", pq.elem[x]);
+	}
+}
 
 //MAXHEAP val > parentElem (parent should be larger than children)
 void insertToPOT(PQ *pq, int val){
@@ -34,6 +42,7 @@ int main(){
 	insertToPOT(&A, 6);
 	insertToPOT(&A, 15);
 	insertToPOT(&A, 7);
+	display(A);
 
 	return 0;
 }
