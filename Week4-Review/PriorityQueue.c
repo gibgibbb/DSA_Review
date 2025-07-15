@@ -6,7 +6,15 @@ typedef struct {
 	int lastNdx;
 }PQ;
 
+void init(PQ *pq){
+	pq->lastNdx = -1;
+}
+
 int main(){
+	
+	
+	PQ A;
+	init(&A);
 
 	return 0;
 }
