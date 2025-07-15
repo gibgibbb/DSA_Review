@@ -10,6 +10,15 @@ void init(PQ *pq);
 void insertToPOT(PQ *pq, int val);
 int deleteMax(PQ *pq);
 void display(PQ pq);
+void heapsort(PQ *pq);
+
+void heapsort(PQ *pq){
+	int origNdx = pq->lastNdx;
+	while(pq->lastNdx > 0){
+		pq->elem[pq->lastNdx] = deleteMax(pq);
+	}
+	pq->lastNdx = origNdx;
+}
 
 void display(PQ pq){
 	int x;
@@ -31,14 +40,16 @@ void insertToPOT(PQ *pq, int val){
 }
 
 //MAXHEAP delete the MAX which is the root and return it to the calling function
+
 int deleteMax(PQ *pq){
 	int root = pq->elem[0];
 	if(pq->lastNdx != -1){
 		int x, lc, rc, min;
 		pq->elem[0] = pq->elem[pq->lastNdx];
-		for(x = 0, lc = (x * 2) + 1; lc <= pq->lastNdx; x = min){
+		for(x = 0, lc = 0; lc < pq->lastNdx; x = min){
 			lc = (x * 2) + 1;
 			rc = (x * 2) + 2;
+			
 			//min will check what is larger between lc and rc and will get rc if rc is larger and x if not
 			min = (pq->elem[lc] > pq->elem[x])? lc : x;
 			if(rc <= pq->lastNdx && pq->elem[rc] > pq->elem[min]){
@@ -54,6 +65,7 @@ int deleteMax(PQ *pq){
 		}
 		// To insert the value at the end
    		/* pq->elem[pq->lastNdx] = root; */
+   		//If you want this display how the array looks like after deletion
    		pq->lastNdx--;
 	}
 	return root;
@@ -77,8 +89,11 @@ int main(){
 	display(A);
 	printf("\n%d", A.lastNdx);
 	
-	int catcher = deleteMax(&A);
-	printf("\ndeleted value is %d\n", catcher);
+//	int catcher = deleteMax(&A);
+//	printf("\ndeleted value is %d\n", catcher);
+//	display(A);
+	heapsort(&A);
+	printf("\nHeapSort\n");
 	display(A);
 
 	return 0;
