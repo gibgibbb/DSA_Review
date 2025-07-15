@@ -8,11 +8,12 @@ typedef struct {
 
 void init(PQ *pq);
 void insertToPOT(PQ *pq, int val);
+int deleteMax(PQ *pq);
 void display(PQ pq);
 
 void display(PQ pq){
 	int x;
-	for(x = 0; x < pq.lastNdx; x++){
+	for(x = 0; x <= pq.lastNdx; x++){
 		printf("%d ", pq.elem[x]);
 	}
 }
@@ -29,6 +30,35 @@ void insertToPOT(PQ *pq, int val){
 	}
 }
 
+//MAXHEAP delete the MAX which is the root and return it to the calling function
+int deleteMax(PQ *pq){
+	int root = pq->elem[0];
+	if(pq->lastNdx != -1){
+		int x, lc, rc, min;
+		pq->elem[0] = pq->elem[pq->lastNdx];
+		for(x = 0, lc = (x * 2) + 1; lc <= pq->lastNdx; x = min){
+			lc = (x * 2) + 1;
+			rc = (x * 2) + 2;
+			//min will check what is larger between lc and rc and will get rc if rc is larger and x if not
+			min = (pq->elem[lc] > pq->elem[x])? lc : x;
+			if(rc <= pq->lastNdx && pq->elem[rc] > pq->elem[min]){
+				min = rc;
+			}
+  			if(min != x){
+				int temp = pq->elem[min];
+				pq->elem[min] = pq->elem[x];
+				pq->elem[x] = temp;
+			} else {
+				min = pq->lastNdx;
+			}
+		}
+		// To insert the value at the end
+   		/* pq->elem[pq->lastNdx] = root; */
+   		pq->lastNdx--;
+	}
+	return root;
+}
+
 void init(PQ *pq){
 	pq->lastNdx = -1;
 }
@@ -42,6 +72,13 @@ int main(){
 	insertToPOT(&A, 6);
 	insertToPOT(&A, 15);
 	insertToPOT(&A, 7);
+	insertToPOT(&A, 9);
+	insertToPOT(&A, 4);
+	display(A);
+	printf("\n%d", A.lastNdx);
+	
+	int catcher = deleteMax(&A);
+	printf("\ndeleted value is %d\n", catcher);
 	display(A);
 
 	return 0;
