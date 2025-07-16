@@ -21,6 +21,36 @@ typedef struct {
 
 typedef int Clist;
 
+void initClistHeap(Clist *L, BSTHeap *BST);
+void display(BSTHeap BST, Clist L);
+void insert(BSTHeap *BST, Clist *L, elemType val);
+int allocSpace(BSTHeap *BST);
+
+int allocSpace(BSTHeap *BST){
+	int temp = BST->avail;
+	if(temp != -1){
+		BST->avail = BST->nodes[temp].rc;
+	}
+	return temp;
+}
+
+void insert(BSTHeap *BST, Clist *L, elemType val){
+	int *trav, temp;
+	if(BST->avail != -1){
+		for(trav = L; *trav != -1 && strcmp(BST->nodes[*trav].data.ID, val.ID) != 0;){
+			trav = (strcmp(val.ID, BST->nodes[*trav].data.ID) < 0) ? &(BST->nodes[*trav].lc) : &(BST->nodes[*trav].rc);
+		}
+		if(*trav == -1){
+			int temp = allocSpace(BST);
+			if(temp != -1){
+				BST->nodes[temp].data = val;
+				BST->nodes[temp].lc = BST->nodes[temp].rc = -1;
+				*trav = temp;
+			}
+		}
+	}
+}
+
 void initClistHeap(Clist *L, BSTHeap *BST){
 	*L = -1;
 	BST->avail = MAX - 1;
@@ -31,12 +61,13 @@ void initClistHeap(Clist *L, BSTHeap *BST){
 	}
 }
 
-void display(BSTHeap BST){
-	int x;
-	printf("LC & RC\n");
-	for(x = 0; x < MAX; x++){
-	//	printf("\n%10s%10s\n", BST.nodes[x].elem.nickname, BST.nodes[x].elem.ID);
-		printf("%d %d\n", BST.nodes[x].lc, BST.nodes[x].rc);
+
+//preorder
+void display(BSTHeap BST, Clist L){
+	if(L != -1){
+		printf("\t%-10s\t%-10s\n", BST.nodes[L].data.ID, BST.nodes[L].data.nickname);
+		display(BST, BST.nodes[L].lc);
+		display(BST, BST.nodes[L].rc);
 	}
 }
 
@@ -44,7 +75,13 @@ int main(){
 	
 	Clist L;
 	BSTHeap BSTH;
+	elemType A = {"888", "Gibgib"};
+	elemType B = {"223", "Sova"};
+	elemType C = {"967", "Astra"};
 	initClistHeap(&L, &BSTH);
-	display(BSTH);
+	insert(&BSTH, &L, A);
+	insert(&BSTH, &L, B);
+	insert(&BSTH, &L, C);
+	display(BSTH, L);
 	return 0;
 }
