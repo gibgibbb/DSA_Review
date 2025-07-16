@@ -40,7 +40,6 @@ void insertToPOT(PQ *pq, int val){
 }
 
 //MAXHEAP delete the MAX which is the root and return it to the calling function
-
 int deleteMax(PQ *pq){
 	int root = pq->elem[0];
 	if(pq->lastNdx != -1){
@@ -50,17 +49,19 @@ int deleteMax(PQ *pq){
 			lc = (x * 2) + 1;
 			rc = (x * 2) + 2;
 			
-			//min will check what is larger between lc and rc and will get rc if rc is larger and x if not
-			min = (pq->elem[lc] > pq->elem[x])? lc : x;
-			if(rc <= pq->lastNdx && pq->elem[rc] > pq->elem[min]){
-				min = rc;
-			}
-  			if(min != x){
-				int temp = pq->elem[min];
-				pq->elem[min] = pq->elem[x];
-				pq->elem[x] = temp;
-			} else {
-				min = pq->lastNdx;
+			if(lc < pq->lastNdx){
+				//min will check what is larger between lc and rc and will get rc if rc is larger and x if not
+				min = (pq->elem[lc] > pq->elem[x])? lc : x;
+				if(rc <= pq->lastNdx && pq->elem[rc] > pq->elem[min]){
+					min = rc;
+				}
+	  			if(min != x){
+					int temp = pq->elem[min];
+					pq->elem[min] = pq->elem[x];
+					pq->elem[x] = temp;
+				} else {
+					min = pq->lastNdx;
+				}
 			}
 		}
 		// To insert the value at the end
