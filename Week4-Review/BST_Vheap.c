@@ -48,7 +48,7 @@ void deleteElem(BSTHeap *BST, Clist *L, elemType val){
 			temp = *trav2;
 			*trav2 = BST->nodes[temp].rc;
 		} else {
-			*trav = (BST->nodes[temp].lc != -1) ? BST->nodes[temp].lc : BST->nodes[temp].lc;
+			*trav = (BST->nodes[temp].lc != -1) ? BST->nodes[temp].lc : BST->nodes[temp].rc;
 		}
 		deallocSpace(BST, temp);
 		printf("Deleted \t%-10s\t%-10s\n", BST->nodes[temp].data.ID, BST->nodes[temp].data.nickname);
