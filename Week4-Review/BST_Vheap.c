@@ -26,7 +26,7 @@ void display(BSTHeap BST, Clist L);
 void insert(BSTHeap *BST, Clist *L, elemType val);
 int allocSpace(BSTHeap *BST);
 void deallocSpace(BSTHeap *BST, int pos);
-void delete(BSTHeap *BST, Clist *L, elemType val);
+void deleteElem(BSTHeap *BST, Clist *L, elemType val);
 
 void deallocSpace(BSTHeap *BST, int pos){
 	BST->nodes[pos].lc = -1;
@@ -34,7 +34,7 @@ void deallocSpace(BSTHeap *BST, int pos){
 	BST->avail = pos;
 }
 
-void delete(BSTHeap *BST, Clist *L, elemType val){
+void deleteElem(BSTHeap *BST, Clist *L, elemType val){
 	int *trav;
 	for(trav = L; *trav != -1 && strcmp(BST->nodes[*trav].data.ID, val.ID) != 0;){
 		trav = (strcmp(val.ID, BST->nodes[*trav].data.ID) < 0) ? &(BST->nodes[*trav].lc) : &(BST->nodes[*trav].rc);
@@ -50,19 +50,6 @@ void delete(BSTHeap *BST, Clist *L, elemType val){
 		} else {
 			*trav = (BST->nodes[temp].lc != -1) ? BST->nodes[temp].lc : BST->nodes[temp].lc;
 		}
-//		int toDel = *trav;
-//		    if (BST->nodes[toDel].lc != -1 && BST->nodes[toDel].rc != -1) {
-//		        int *succ = &BST->nodes[toDel].rc;
-//		        for (; *succ != -1 && BST->nodes[*succ].lc != -1; succ = &BST->nodes[*succ].lc){}
-//		        BST->nodes[toDel].data = BST->nodes[*succ].data;
-//		        toDel = *succ;
-//		        *succ = BST->nodes[toDel].rc;
-//		    }
-//		    else {
-//		        int child = (BST->nodes[toDel].lc != -1)? BST->nodes[toDel].lc : BST->nodes[toDel].rc;
-//		        *trav = child;
-//		    }
-
 		deallocSpace(BST, temp);
 		printf("Deleted \t%-10s\t%-10s\n", BST->nodes[temp].data.ID, BST->nodes[temp].data.nickname);
 	}
@@ -127,7 +114,7 @@ int main(){
 	insert(&BSTH, &L, B);
 	insert(&BSTH, &L, C);
 	display(BSTH, L);
-	delete(&BSTH, &L, A);
+	deleteElem(&BSTH, &L, A);
 	printf("\n");
 	display(BSTH, L);
 	return 0;
