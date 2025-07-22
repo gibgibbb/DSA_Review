@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define MAX 10 // MAX SIZE OF THE MATRIX (2D ARRAY 10x10)
 #define MAX_INT 100 // INFINITY
-#define SENTINEL -1
+#define SENTINEL -1 //SENTINEL VALUE
 
 //Adjacency Matrix
 typedef int labeltype;
