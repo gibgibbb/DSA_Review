@@ -59,10 +59,8 @@ void FloydWarshall(AdjMat *C, AdjMat M) {
 	for(a = 0; a < MAX; a++){
 		for(b = 0; b < MAX; b++){
 			for(c = 0; c < MAX; c++){
-				if((*C)[a][c] != INF && (*C)[c][b] != INF){
-					if((*C)[a][c] + (*C)[c][b] < (*C)[a][b]){
-						(*C)[a][b] = (*C)[a][c] + (*C)[c][b];
-					}
+				if((*C)[a][c] != INF && (*C)[c][b] != INF && (*C)[a][c] + (*C)[c][b] < (*C)[a][b]){
+					(*C)[a][b] = (*C)[a][c] + (*C)[c][b];
 				}
 			}
 		}
