@@ -14,6 +14,19 @@ typedef enum {FALSE, TRUE
 int *DijkstraMat(vertexType src, AdjMat M);
 void FloydWarshall(AdjMat *C, AdjMat M);
 void FloydWarshall2(AdjMat C, AdjMat M);
+void DFS(AdjMat M, vertexType src, Boolean visArr[]);
+
+void DFS(AdjMat M, vertexType src, Boolean visArr[]){
+	visArr[src - 'A'] = TRUE;
+	printf(" %c ::", src);
+	
+	int x;
+	for(x = 0; x < MAX; x++){
+		if(M[src - 'A'][x] != SENTINEL && visArr[x] == FALSE){
+			DFS(M, 'A' + x, visArr);
+		}
+	}
+}
 
 void FloydWarshall2(AdjMat C, AdjMat M){
     int i, j, k;
@@ -164,6 +177,14 @@ int main(){
         }
         putchar('\n');
     }
+    
+    printf("\n\n");
+    printf("DFS\n");
+    Boolean vis[MAX];
+    for(x = 0; x < MAX; x++){
+		vis[x] = FALSE;
+	}
+    DFS(A, 'A', vis);
 	
 	return 0;
 }
