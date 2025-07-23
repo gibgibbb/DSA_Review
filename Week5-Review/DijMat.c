@@ -73,6 +73,7 @@ int *DijkstraMat(vertexType src, AdjMat M){
 	int *D = (int*)malloc(sizeof(int)*MAX);
 	if(D != NULL){
 		int i;
+		// Stores all the element in the rows
 		for(i = 0; i < MAX; i++){
 			D[i] = M[src - 'A'][i];
 		}
