@@ -13,35 +13,38 @@ typedef enum {FALSE, TRUE
 
 int *DijkstraMat(vertexType src, AdjMat M);
 void FloydWarshall(AdjMat *C, AdjMat M);
+void FloydWarshall2(AdjMat C, AdjMat M);
+
+void FloydWarshall2(AdjMat C, AdjMat M){
+    int i, j, k;
+
+    /* 1) copy M ? C */
+    for (i = 0; i < MAX; i++) {
+        for (j = 0; j < MAX; j++) {
+            C[i][j] = M[i][j];
+        }
+    }
+
+    /* 2) zero out the diagonal */
+    for (i = 0; i < MAX; i++) {
+        C[i][i] = 0;
+    }
+
+    /* 3) core FW relaxation */
+    for (k = 0; k < MAX; k++) {
+        for (i = 0; i < MAX; i++) {
+            for (j = 0; j < MAX; j++) {
+                /* only relax if both pieces are reachable */
+                if (C[i][k] < INF && C[k][j] < INF &&
+                    C[i][k] + C[k][j] < C[i][j]) {
+                    C[i][j] = C[i][k] + C[k][j];
+                }
+            }
+        }
+    }
+}
 
 void FloydWarshall(AdjMat *C, AdjMat M) {
-//    int i, j, k;
-//
-//    /* 1) copy M ? C */
-//    for (i = 0; i < MAX; i++) {
-//        for (j = 0; j < MAX; j++) {
-//            C[i][j] = M[i][j];
-//        }
-//    }
-//
-//    /* 2) zero out the diagonal */
-//    for (i = 0; i < MAX; i++) {
-//        C[i][i] = 0;
-//    }
-//
-//    /* 3) core FW relaxation */
-//    for (k = 0; k < MAX; k++) {
-//        for (i = 0; i < MAX; i++) {
-//            for (j = 0; j < MAX; j++) {
-//                /* only relax if both pieces are reachable */
-//                if (C[i][k] < INF && C[k][j] < INF &&
-//                    C[i][k] + C[k][j] < C[i][j]) {
-//                    C[i][j] = C[i][k] + C[k][j];
-//                }
-//            }
-//        }
-//    }
-
 /* 2nd Version the pointer */
 	int a, b, c;
 	for(a = 0; a < MAX; a++){
@@ -64,7 +67,6 @@ void FloydWarshall(AdjMat *C, AdjMat M) {
 			}
 		}
 	}
-
 }
 
 
@@ -129,36 +131,6 @@ int *DijkstraMat(vertexType src, AdjMat M){
 //		}
 //	}
 //	return D;
-
-/* 3rd Dij */
-//	int *D, S[MAX], x, y, i, min, u;
-//	D = (int*)malloc(sizeof(int) * MAX);
-//	if(D != NULL){
-//		S[0] = src - 'A';
-//		for(i = 0; i < MAX; i++){
-//			D[i] = M[src - 'A'][i];
-//		}
-//		D[src - 'A'] = 0;
-//		for(x = 0; x < MAX; x++){
-//			min = INF;
-//			u = -1;
-//			for(y = 0; y < MAX; y++){
-//				if(S[y] == 0 && D[y] < min){
-//					min = D[y];
-//					u = y;
-//				}
-//			}
-//			if( y != -1){
-//				S[y] = 1;
-//			}
-//			for(y = 0; y < MAX; y++){
-//				if(S[y] != -1 && D[u] != INF && D[u] + M[u][y] < D[y]){
-//					D[y] = D[u] + M[u][y];
-//				}
-//			}
-//		}
-//	}
-//	return D;
 }
 
 int main(){
@@ -171,16 +143,18 @@ int main(){
         { INF,   4, INF,   3, INF }
     };
 
-//	int *catcher = DijkstraMat('A', A);
-//	int x;
-//	printf("Dij\n");
-//	for(x = 0; x < MAX; x++){
-//		printf("%d ", catcher[x]);
-//	}
-//	printf("\nFloydWarshall\n");
+	int *catcher = DijkstraMat('A', A);
+	int x;
+	printf("Dij\n");
+	for(x = 0; x < MAX; x++){
+		printf("%d ", catcher[x]);
+	}
+	
+	printf("\nFloydWarshall\n");
 	AdjMat C;
     /* run Floyd–Warshall */
     FloydWarshall(&C, A);
+//    FloydWarshall2(C, A);
     int i;
     for (i = 0; i < MAX; i++) {
         for (int j = 0; j < MAX; j++) {
