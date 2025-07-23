@@ -12,6 +12,61 @@ typedef enum {FALSE, TRUE
 }Boolean;
 
 int *DijkstraMat(vertexType src, AdjMat M);
+void FloydWarshall(AdjMat *C, AdjMat M);
+
+void FloydWarshall(AdjMat *C, AdjMat M) {
+//    int i, j, k;
+//
+//    /* 1) copy M ? C */
+//    for (i = 0; i < MAX; i++) {
+//        for (j = 0; j < MAX; j++) {
+//            C[i][j] = M[i][j];
+//        }
+//    }
+//
+//    /* 2) zero out the diagonal */
+//    for (i = 0; i < MAX; i++) {
+//        C[i][i] = 0;
+//    }
+//
+//    /* 3) core FW relaxation */
+//    for (k = 0; k < MAX; k++) {
+//        for (i = 0; i < MAX; i++) {
+//            for (j = 0; j < MAX; j++) {
+//                /* only relax if both pieces are reachable */
+//                if (C[i][k] < INF && C[k][j] < INF &&
+//                    C[i][k] + C[k][j] < C[i][j]) {
+//                    C[i][j] = C[i][k] + C[k][j];
+//                }
+//            }
+//        }
+//    }
+
+/* 2nd Version the pointer */
+	int a, b, c;
+	for(a = 0; a < MAX; a++){
+		for(b = 0; b < MAX; b++){
+			if(a != b){
+				(*C)[a][b] = (M[a][b] != SENTINEL) ? M[a][b] : INF;
+			} else {
+				(*C)[a][b] = 0;
+			}
+		}
+	}
+	for(a = 0; a < MAX; a++){
+		for(b = 0; b < MAX; b++){
+			for(c = 0; c < MAX; c++){
+				if((*C)[a][c] != INF && (*C)[c][b] != INF){
+					if((*C)[a][c] + (*C)[c][b] < (*C)[a][b]){
+						(*C)[a][b] = (*C)[a][c] + (*C)[c][b];
+					}
+				}
+			}
+		}
+	}
+
+}
+
 
 int *DijkstraMat(vertexType src, AdjMat M){
 	Boolean visited[MAX] = {FALSE};
@@ -79,9 +134,9 @@ int *DijkstraMat(vertexType src, AdjMat M){
 //	int *D, S[MAX], x, y, i, min, u;
 //	D = (int*)malloc(sizeof(int) * MAX);
 //	if(D != NULL){
+//		S[0] = src - 'A';
 //		for(i = 0; i < MAX; i++){
-//			D[i] = INF;
-//			S[i] = 0;
+//			D[i] = M[src - 'A'][i];
 //		}
 //		D[src - 'A'] = 0;
 //		for(x = 0; x < MAX; x++){
@@ -115,11 +170,27 @@ int main(){
         {   1,   6,   5,   3, INF },
         { INF,   4, INF,   3, INF }
     };
-	int *catcher = DijkstraMat('A', A);
-	int x;
-	for(x = 0; x < MAX; x++){
-		printf("%d ", catcher[x]);
-	}
+
+//	int *catcher = DijkstraMat('A', A);
+//	int x;
+//	printf("Dij\n");
+//	for(x = 0; x < MAX; x++){
+//		printf("%d ", catcher[x]);
+//	}
+//	printf("\nFloydWarshall\n");
+	AdjMat C;
+    /* run Floyd–Warshall */
+    FloydWarshall(&C, A);
+    int i;
+    for (i = 0; i < MAX; i++) {
+        for (int j = 0; j < MAX; j++) {
+            if (C[i][j] >= INF)
+                printf(" INF");
+            else
+                printf("%4d", C[i][j]);
+        }
+        putchar('\n');
+    }
 	
 	return 0;
 }
