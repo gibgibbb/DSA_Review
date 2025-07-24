@@ -10,22 +10,74 @@ typedef int AdjMat[MAX][MAX];
 typedef char vertexType;
 typedef enum {FALSE, TRUE
 }Boolean;
+typedef struct {
+	char elems[MAX];
+	int front, rear;
+}QUEUE;
 
 int *DijkstraMat(vertexType src, AdjMat M);
 void FloydWarshall(AdjMat *C, AdjMat M);
 void FloydWarshall2(AdjMat C, AdjMat M);
 void DFS(AdjMat M, vertexType src, Boolean visArr[]);
+void BFS(AdjMat M, vertexType src);
 
-void DFS(AdjMat M, vertexType src, Boolean visArr[]){
-	visArr[src - 'A'] = TRUE;
-	printf(" %c ::", src);
+void BFS(AdjMat M, vertexType src){
+	QUEUE mq = {.front = 0, .rear = -1};
+	Boolean visArr[MAX] = {FALSE};
 	
-	int x;
-	for(x = 0; x < MAX; x++){
-		if(M[src - 'A'][x] != SENTINEL && visArr[x] == FALSE){
-			DFS(M, 'A' + x, visArr);
+	visArr[src - 'A'] = TRUE;
+	mq.rear = (mq.rear + 1) % MAX;
+	mq.elems[mq.rear] = src;
+	
+	while((mq.rear + 1) % MAX != mq.front){
+		vertexType curr = mq.elems[mq.front];
+		printf(" %c :: ", curr);
+		
+		mq.front = (mq.front + 1) % MAX;
+		int x;
+		for(x = 0; x < MAX; x++){
+			if(M[curr - 'A'][x] != SENTINEL && visArr[x] == FALSE){
+				visArr[x] = TRUE;
+				mq.rear = (mq.rear + 1) % MAX;
+				mq.elems[mq.rear] = 'A' + x;
+			}
 		}
 	}
+}
+
+//void DFS(AdjMat M, vertexType src, Boolean visArr[]){
+//	visArr[src - 'A'] = TRUE;
+//	printf(" %c ::", src);
+//	
+//	int x;
+//	for(x = 0; x < MAX; x++){
+//		if(M[src - 'A'][x] != SENTINEL && visArr[x] == FALSE){
+//			DFS(M, 'A' + x, visArr);
+//		}
+//	}
+//}
+
+void DFS_iterative(AdjMat M, char src) {
+    Boolean visArr[MAX] = { FALSE };
+    int stack[MAX];
+    int top = -1;
+
+    /* push the start vertex */
+    stack[++top] = src - 'A';
+
+    while (top >= 0) {
+        int x = stack[top--];        /* pop */
+        if (visArr[x] == FALSE) {
+            visArr[x] = TRUE;
+            printf(" %c ::", 'A' + x);
+
+            for (int y = MAX; y > 0; y--) {
+                if (M[x][y] != SENTINEL && visArr[y] == FALSE) {
+                    stack[++top] = y;
+                }
+            }
+        }
+    }
 }
 
 void FloydWarshall2(AdjMat C, AdjMat M){
@@ -48,8 +100,7 @@ void FloydWarshall2(AdjMat C, AdjMat M){
         for (i = 0; i < MAX; i++) {
             for (j = 0; j < MAX; j++) {
                 /* only relax if both pieces are reachable */
-                if (C[i][k] < INF && C[k][j] < INF &&
-                    C[i][k] + C[k][j] < C[i][j]) {
+                if (C[i][k] < INF && C[k][j] < INF && C[i][k] + C[k][j] < C[i][j]) {
                     C[i][j] = C[i][k] + C[k][j];
                 }
             }
@@ -90,8 +141,11 @@ int *DijkstraMat(vertexType src, AdjMat M){
 		for(i = 0; i < MAX; i++){
 			D[i] = M[src - 'A'][i];
 		}
+		// Set source value to 0
 		D[src - 'A'] = 0;
 		int x, y;
+		
+		//Algo
 		for(x = 0; x < MAX; x++){
 			int min = INF, minNdx;
 			for(y = 0; y < MAX; y++){
@@ -165,8 +219,8 @@ int main(){
 	printf("\nFloydWarshall\n");
 	AdjMat C;
     /* run Floyd–Warshall */
-    FloydWarshall(&C, A);
-//    FloydWarshall2(C, A);
+    //FloydWarshall(&C, A);
+    FloydWarshall2(C, A);
     int i;
     for (i = 0; i < MAX; i++) {
         for (int j = 0; j < MAX; j++) {
@@ -184,7 +238,10 @@ int main(){
     for(x = 0; x < MAX; x++){
 		vis[x] = FALSE;
 	}
-    DFS(A, 'A', vis);
+    //DFS(A, 'A', vis);
+    DFS_iterative(A, 'A');
+    printf("\n\nBFS\n");
+    BFS(A, 'A');
 	
 	return 0;
 }
