@@ -14,6 +14,13 @@ void display(Stack S);
 void insertBottom(Stack *S, char val);
 
 void insertBottom(Stack *S, char val){
+	
+	/*
+
+		Remember that this uses function calls. 
+
+	*/
+	
 	Stack temp;
 	initStack(&temp);
 	
