@@ -29,6 +29,14 @@ void insertFirst(Stack *S, char val){
 }
 
 void insertBottom(Stack *S, char val){
+	
+	/*
+
+		This commented code used function calls for doing the insertion. The code below contains the code for the
+		insertBottom withousing function calls. Keep in mind, we are not traversing here.
+
+	*/
+	
 //	Stack temp;
 //	temp = NULL;
 //	for(; *S != NULL; deleteFirst(S)){
