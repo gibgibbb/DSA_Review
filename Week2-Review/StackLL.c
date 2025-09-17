@@ -60,9 +60,9 @@ void insertBottom(Stack *S, char val){
 	}
 	temp = malloc(sizeof(struct stack));
 	if(temp != NULL){
-		newNode->elem = val;
-		newNode->link = NULL;
-		*S = newNode;
+		temp->elem = val;
+		temp->link = NULL;
+		*S = temp;
 	}
 	for(;temp != NULL;){
 		Stack temp2 = temp;
