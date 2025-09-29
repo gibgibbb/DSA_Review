@@ -152,6 +152,9 @@ int main(void)
 	 *-------------------------------------------------------------------------*/
     printf("\n\n\nProblem #3:: ");
     printf("\n------------\n");
+    
+    studSet* inactiveStudents = removeInactiveStudents(d); // Get the inactive students
+	displayStudSets(inactiveStudents); // Display the inactive students
 
 
     return 0;
@@ -387,18 +390,38 @@ void displayDCISMDict(dcismDict D)
 //-----------------------------------------------------------------------------------------
 // initStudSet(). The functions initialize an empty array of studSets that can accommodate the total number of programs.
 //-----------------------------------------------------------------------------------------
-studSet* initStudSet(void)
-{
-     //Write your code here
+studSet* initStudSet(void) {
+    //Write your code here
+    studSet* inactiveSigma = (studSet*) malloc(NUMPROGRAMS * sizeof(sNode*));
+
+    int i;
+    for (i = 0; i < NUMPROGRAMS; i++) {
+        inactiveSigma[i] = (studSet) malloc(sizeof(sNode));
+        if (inactiveSigma[i] != NULL) {
+            inactiveSigma[i]->count = 0;
+        }
+    }
+
+    return inactiveSigma;
 }
 
 
 //-----------------------------------------------------------------------------------------
 // insertStudSet(). The function will insert the studRec into the studSet. Student will be inserted at the end of the set.
 //-----------------------------------------------------------------------------------------
-void insertStudSet(studSet S, studRec sRecord)
-{
-    //Write your code here
+void insertStudSet(studSet S, student SRecord) {
+    // Check if we can insert a new student
+    if (S->count < MAXSTUDS) {
+        // Copy relevant fields from SRecord to the new studRec in the set
+        strcpy(S->studs[S->count].studID, SRecord.idNum); // Copy ID number
+        strcpy(S->studs[S->count].sName.fName, SRecord.name.fName); // Copy first name
+        S->studs[S->count].sName.mi = SRecord.name.mi; // Copy middle initial
+        strcpy(S->studs[S->count].sName.lName, SRecord.name.lName); // Copy last name
+        S->count++; // Increment the number of students
+    } else {
+        // Handle the case when the array is full
+        printf("Cannot insert student: Maximum limit reached.\n");
+    }
 }
 
 
@@ -409,17 +432,49 @@ void insertStudSet(studSet S, studRec sRecord)
 //-----------------------------------------------------------------------------------------
 studSet* removeInactiveStudents(dcismDict D)
 {
-     //Write your code here
-}
+    studSet* inactiveSets = initStudSet();  // Initialize the array of studSets
+	int program, yearLevel;
+	studLL trav;
+    for (program = 0; program < NUMPROGRAMS; program++) {
+        for (yearLevel = 0; yearLevel < YEARLEVELS; yearLevel++) {
+            for (trav = D[program].programStuds[yearLevel]; trav != NULL; ) {
+                if (trav->stud.info & 0b01) { // Check if the student is inactive
+                    // Remove the student from the linked list
+                    D[program].programStuds[yearLevel] = trav->next; // Point to the next student
 
+                    // Add the inactive student to the appropriate studSet
+                    insertStudSet(inactiveSets[program], trav->stud);
+
+                    // Free the node after saving the student
+                    studLL temp = trav; // Save the current node
+                    trav = trav->next;  // Move trav to the next node
+                    free(temp);         // Free the current node
+                } else {
+                    // Move trav to the next node if it's active
+                    trav = trav->next;
+                }
+            }
+        }
+    }
+    return inactiveSets;
+}
 
 
 /**********************************************************************************
  *  Displays the ID, Firstname and Lastname of inactive students for each program. *
  **********************************************************************************/
-void displayStudSets(studSet* S)
-{
-     //Write your code
+void displayStudSets(studSet* S) {
+    int i, j;
+    for (i = 0; i < NUMPROGRAMS; i++) {
+        if (S[i] != NULL && S[i]->count > 0) { // Check if the studSet is not NULL and has students
+            printf("Program %d Inactive Students:\n", i);
+            for (j = 0; j < S[i]->count; j++) {
+                studRec stud = S[i]->studs[j]; // Correctly access the stud
+                printf("ID: %s, First Name: %s, Last Name: %s\n", stud.studID, stud.sName.fName, stud.sName.lName);
+            }
+            printf("\n");
+        }
+    }
 }
 
 
