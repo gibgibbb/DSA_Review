@@ -281,6 +281,7 @@ int insertStudLL(studLL* SL, student S)
 {
      //Write your code
      studLL *trav;
+     int result = 0;
      for(trav = SL;*trav != NULL && strcmp((*trav)->stud.idNum, S.idNum) < 0;trav = &(*trav)->next){}
      if(*trav == NULL || strcmp((*trav)->stud.idNum, S.idNum) != 0){
      	studLL temp = malloc(sizeof(studNode));
@@ -289,7 +290,9 @@ int insertStudLL(studLL* SL, student S)
      		temp->next = *trav;
      		*trav = temp;
 		 }
+		 result = 1;
 	 }
+	 return result;
 }
 
 
@@ -311,6 +314,18 @@ void displayStudLL(studLL SL)
         printf("%-10s\n", "Status");
 
         //Write your code here
+        studNode *trav;
+        for(trav = SL; trav != NULL; trav = trav->next){
+        	personalInfo info = trav->stud.info;
+        	char *program = getProgram(info);
+        	int year = yearLevelHash(info) + 1;
+        	char *gender = (info & 0b0100000) ? "Female" : "Male";
+        	char *enrollmentStatus = (info & 0b01000000) ? "Irregular" : "Regular";
+        	char *nationality = (info & 0b10000000) ? "Foreigner" : "Filipuno";
+        	char *status = (info & 0b01)? "Inactive" : "Active";
+
+        	printf("%-10s%-10s%-10s%-10s%-10d%-10s%-15s%-15s%-10s\n", trav->stud.idNum, trav->stud.name.fName, trav->stud.name.lName, program, year, gender, enrollmentStatus, nationality, status);
+		}
     }
 }
 
@@ -322,10 +337,10 @@ void initDCISMDict(dcismDict D)
      //Write your code here
      int i, j;
      for(i = 0;i < NUMPROGRAMS;i++){
-     	D[i].studCtr = 0;
      	for(j = 0;j < YEARLEVELS;j++){
      		D[i].programStuds[j] = NULL;
-		 }
+		}
+		D[i].studCtr = 0;
 	 }
 }
 
@@ -335,16 +350,17 @@ void initDCISMDict(dcismDict D)
 //-----------------------------------------------------------------------------------------
 void convertToDCISMDict(dcismDict D, arrListStud SL)
 {
-     //Write your code here
-   int i;
-   for(i = 0;i < SL.numStuds;i++){
-   	int prog = programHash(SL.studs[i].info);
-   	int year = yearLevelHash(SL.studs[i].info);
-
-	if(insertStudLL(&D[prog].programStuds[year], SL.studs[i]) == 1){
-		D[i].studCtr++;
-		}
-   	}
+    int i;
+    student s;
+    for(i = 0; i < SL.numStuds; i++){
+        s = SL.studs[i];  // Get the current student
+        int programNdx = programHash(s.info);
+        int yearLevel= yearLevelHash(s.info);
+        // Insert the student into the appropriate linked list
+        if(insertStudLL(&D[programNdx].programStuds[yearLevel], s) == 1) {
+            D[programNdx].studCtr++;
+        }
+    }
 }
 
 
@@ -355,13 +371,12 @@ void convertToDCISMDict(dcismDict D, arrListStud SL)
 void displayDCISMDict(dcismDict D)
 {
     int i, j;
-    for(i = 0;i < NUMPROGRAMS;i++){
-         printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students\n");  //Complete code and uncomment
-        for(j = 0;j < YEARLEVELS;j++){
-          printf("\n%9s", D[i].programStuds[j]->stud.idNum);
-		  printf("\n%9s", D[i].programStuds[j]->stud.name.fName);
-		  printf("\n%9s", D[i].programStuds[j]->stud.name.mi);
-		  printf("\n%9s", D[i].programStuds[j]->stud.name.lName);
+    const char* programs[] = {"BSCS", "BSIT", "BSIS", "BSMATH"};
+    for(i = 0; i < NUMPROGRAMS; i++){
+       printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students\n", programs[i], D[i].studCtr);  //Complete code and uncomment
+        for(j = 0; j < YEARLEVELS; j++){
+             printf("\nYear %d: \n", j + 1);
+             displayStudLL(D[i].programStuds[j]);
         }
     }
 }
