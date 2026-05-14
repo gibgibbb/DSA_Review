@@ -70,7 +70,6 @@ void insertFirst(LIST *L, studRec val){ // Working
 }
 
 void insertLast(LIST *L, studRec val){ // Working
-	int x;
 	if(L->count < MAX){
 		L->stud[++L->count] = val;
 	}

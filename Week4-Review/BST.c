@@ -11,6 +11,19 @@ void init(nodePtr *N);
 void insert(nodePtr *N, int val);
 void delete(nodePtr *N, int val);
 void display(nodePtr N);
+void search(nodePtr N, int val);
+
+void search(nodePtr N, int val){
+	nodePtr trav;
+	for(trav = N; trav != NULL && trav->elem != val;){
+		trav = (val < trav->elem) ? trav->left : trav->right;
+	}
+	if(trav != NULL && trav->elem == val){
+		printf("%d value found", trav->elem);
+	} else {
+		printf("%d value doesn't exist", val);
+	}
+}
 
 void display(nodePtr N){
 	if(N != NULL){
@@ -64,6 +77,8 @@ int main(){
 	insert(&A, 5);
 	insert(&A, 10);
 	insert(&A, 3);
+	search(A, 15);
+	printf("\n");
 	display(A);
 	delete(&A, 10);
 	printf("\ndelete\n");
